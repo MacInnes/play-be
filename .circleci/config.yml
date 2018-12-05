@@ -39,7 +39,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm install -D mocha chai chai-http && npm update
+      - run: npm install
 
       - save_cache:
           paths:
@@ -48,7 +48,7 @@ jobs:
 
       - run:
           name: run tests
-          command: mocha --exit
+          command: npm test
 
 workflows:
   version: 2
