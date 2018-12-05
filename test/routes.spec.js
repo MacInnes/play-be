@@ -51,4 +51,16 @@ describe('API Routes', () => {
       });
   });
 
+  it('responds to /api/v1/songs/:id', done => {
+    chai.request(server)
+      .get('/api/v1/songs/1')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.body.length.should.equal(1);
+        response.body[0].title.should.equal('a song')
+        response.body[0].artist.should.equal('asdf')
+        done();
+      })
+  })
+
 });
