@@ -11,13 +11,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Play';
 
-// require('./models/song.js')
-// require('./models/playlist.js')
-//
-// app.use(require('./routes'));
+require('./models/song.js')
+require('./models/playlist.js')
+
+const songs = require('./routes/songs.js')
+const playlists = require('./routes/playlists.js')
+const favorites = require('./routes/favorites.js')
+
+app.use('/api/v1/songs', songs);
+app.use('/api/v1/playlists', playlists);
+app.use('/api/v1/favorites', favorites);
 
 app.get('/', (request, response) => {
   response.send('Is it working?');
+});
+
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 app.listen(app.get('port'), () => {
