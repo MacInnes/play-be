@@ -41,12 +41,12 @@ describe('API Routes', () => {
       })
   });
 
-  it('responds to /api/v1/songs', done => {
+  it('responds to /api/v1/favorites', done => {
     chai.request(server)
-      .get('/api/v1/songs')
+      .get('/api/v1/favorites')
       .end((err, response) => {
         response.should.have.status(200);
-        response.body.message.should.equal("Endpoint connected");
+        response.body.length.should.equal(3);
         done();
       });
   });
