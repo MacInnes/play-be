@@ -22,6 +22,7 @@ jobs:
           -NODE_ENV: test
           -PGHOST: 127.0.01
           -PGUSER: ubuntu
+
       - image: circleci/postgres:10.4
         environment:
           - POSTGRES_USER: ubuntu
@@ -54,8 +55,8 @@ workflows:
     jobs:
       - test
       - deploy:
-        requires:
-          - test
-        filters:
-          branches:
-            only: master
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
