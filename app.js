@@ -11,6 +11,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Play';
 
+require('./models/song.js')
+require('./models/playlist.js')
+
+app.use(require('./routes'));
+
 app.get('/', (request, response) => {
   response.send('Is it working?');
 });
