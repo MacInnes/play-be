@@ -28,6 +28,7 @@ jobs:
           - POSTGRES_USER: ubuntu
           - POSTGRES_DB: play_test
           - POSTGRES_PASSWORD: ""
+
     steps:
       - checkout
 
@@ -46,8 +47,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-        name: run tests
-        command: mocha --exit
+          name: run tests
+          command: mocha --exit
 
 workflows:
   version: 2
