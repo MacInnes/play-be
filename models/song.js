@@ -4,8 +4,8 @@ class Song {
     this.title = title;
     this.artist = artist;
     this.genre = genre;
-    this rating = rating;
+    this.rating = rating;
   }
 
-  
+
 }
