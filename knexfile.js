@@ -18,10 +18,10 @@ module.exports = {
     client: 'pg',
     connection: 'postgres://localhost/play_test',
     migrations: {
-      directory: __dirname + './db/migrations'
+      directory: __dirname + '/db/migrations'
     },
     seeds: {
-      directory: __dirname + './db/seeds/dev'
+      directory: __dirname + '/db/seeds/dev'
     }
   },
 
