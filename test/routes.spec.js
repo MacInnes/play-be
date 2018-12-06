@@ -46,14 +46,14 @@ describe('API Routes', () => {
       .get('/api/v1/favorites')
       .end((err, response) => {
         response.should.have.status(200);
-        response.body.length.should.equal(3);
+        response.body.length.should.equal(2);
         done();
       });
   });
 
   it('responds to /api/v1/songs/:id', done => {
     chai.request(server)
-      .get('/api/v1/songs/1')
+      .get('/api/v1/songs/3')
       .end((error, response) => {
         response.should.have.status(200);
         response.body.length.should.equal(1);
@@ -68,9 +68,9 @@ describe('API Routes', () => {
       .get('/api/v1/playlists')
       .end((error, response) => {
         response.should.have.status(200);
-        response.body.length.should.equal(3);
-        response.body[0].name.should.equal("Stylez with a z")
-        response.body[2].name.should.equal("Lasagna for one")
+        response.body.length.should.equal(2);
+        response.body[0].name.should.equal("Lasagna for One")
+        response.body[1].name.should.equal("Stylez with a z")
         done();
       })
   })
