@@ -63,4 +63,16 @@ describe('API Routes', () => {
       })
   })
 
+  it('responds to /api/v1/playlists', done => {
+    chai.request(server)
+      .get('/api/v1/playlists')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.body.length.should.equal(3);
+        response.body[0].name.should.equal("Stylez with a z")
+        response.body[2].name.should.equal("Lasagna for one")
+        done();
+      })
+  })
+
 });
