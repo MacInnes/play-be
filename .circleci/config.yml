@@ -19,14 +19,14 @@ jobs:
     docker:
       - image: circleci/node:7.10
         environment:
-          -NODE_ENV: test
-          -PGHOST: 127.0.01
-          -PGUSER: ubuntu
+          - NODE_ENV: test
+          - PGHOST: 127.0.0.1
+          - PGUSER: ubuntu
 
       - image: circleci/postgres:10.4
         environment:
           - POSTGRES_USER: ubuntu
-          - POSTGRES_DB: play
+          - POSTGRES_DB: play_test
           - POSTGRES_PASSWORD: ""
 
     steps:
