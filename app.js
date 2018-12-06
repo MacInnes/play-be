@@ -17,10 +17,12 @@ require('./models/playlist.js')
 const songs = require('./routes/songs.js')
 const playlists = require('./routes/playlists.js')
 const favorites = require('./routes/favorites.js')
+const search = require('./routes/search.js')
 
 app.use('/api/v1/songs', songs);
 app.use('/api/v1/playlists', playlists);
 app.use('/api/v1/favorites', favorites);
+app.use('/api/v1/search', search);
 
 app.get('/', (request, response) => {
   response.send('Is it working?');
