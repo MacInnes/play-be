@@ -7,7 +7,7 @@ router.post('/', async function(req, res){
 
   var artist = req.body.artist;
 
-  var promise = new Promise((resolve, reject) => {
+  var songRequest = new Promise((resolve, reject) => {
     var options = {
       url: `http://api.musixmatch.com/ws/1.1/track.search?q_artist=${artist}&apikey=bf8a4b36f09e4df30ca2146f0821b791&page_size=100`,
       headers: {
@@ -21,7 +21,7 @@ router.post('/', async function(req, res){
     });
   })
 
-  var songs = await promise;
+  var songs = await songRequest;
 
   // songs[0].track.track_id
 
