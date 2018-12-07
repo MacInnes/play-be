@@ -71,6 +71,7 @@ describe('API Routes', () => {
       .get('/api/v1/playlists')
       .end((error, response) => {
         response.should.have.status(200);
+        console.log(response.body)
         response.body.length.should.equal(2);
         response.body[0].name.should.equal("Lasagna for One")
         response.body[1].name.should.equal("Stylez with a z")
