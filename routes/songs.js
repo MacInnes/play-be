@@ -18,7 +18,6 @@ router.get('/:id', function(request, response){
 });
 
 router.post('/', function(request, response){
-  console.log("REQUEST BODY: ", request.body.title)
   database('songs').insert({
     title: request.body.title,
     artist: request.body.artist,
