@@ -117,7 +117,7 @@ describe('API Routes', () => {
       .end((error, response) => {
         response.should.have.status(200);
         response.body.title.should.equal(newTitle);
-        response.body.artist.should.equal(song.artist)
+        response.body.artist.should.equal(songs[0].artist)
         done();
       })
     }
