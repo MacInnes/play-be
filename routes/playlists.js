@@ -28,7 +28,6 @@ router.get('/:id/songs', function(req, res){
   .then(playlist => {
     if (playlist.length) {
       var songs = []
-      console.log(playlist['playlist_id'])
       playlist.forEach(function(song, index) {
         songs.push({
           "id": song["id"],
