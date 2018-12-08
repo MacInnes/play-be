@@ -54,7 +54,19 @@ router.put('/:id', function(request, response){
   } else {
     response.status(400).json('')
   }
+})
 
+router.delete('/:id', function(request, response){
+  database('songs')
+    .where('id', request.params.id)
+    .del()
+    .then(data => {
+      if (data != 0){
+        response.status(204).json('');
+      } else {
+        response.status(400).json('');
+      }
+    });
 })
 
 module.exports = router;
