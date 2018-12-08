@@ -65,17 +65,32 @@ describe('API Routes', () => {
       })
     }
   })
+  //
+  // it('responds to /api/v1/playlists', done => {
+  //   chai.request(server)
+  //     .get('/api/v1/playlists')
+  //     .end((error, response) => {
+  //       response.should.have.status(200);
+  //       response.body.length.should.equal(2);
+  //       response.body[0].name.should.equal("Lasagna for One")
+  //       response.body[1].name.should.equal("Stylez with a z")
+  //       response.body[0].songs[0].name.should.equal("a song")
+  //       done();
+  //     })
+  // })
 
-  it('responds to /api/v1/playlists', done => {
-    chai.request(server)
-      .get('/api/v1/playlists')
+  it('responds to /api/v1/playlists/:id/songs', done => {
+    database('playlists').first('*').then(data => resolve(data))
+    function resolve(playlist){
+      chai.request(server)
+      .get(`/api/v1/playlists/${playlist.id}/songs`)
       .end((error, response) => {
         response.should.have.status(200);
-        response.body.length.should.equal(2);
-        response.body[0].name.should.equal("Lasagna for One")
-        response.body[1].name.should.equal("Stylez with a z")
+        response.body.playlist_name.should.equal(playlist.name);
+        response.body.songs.length.should.equal(2);
         done();
       })
+    }
   })
 
   it('responds to POST /api/v1/songs', done => {
