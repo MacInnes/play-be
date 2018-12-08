@@ -79,4 +79,26 @@ describe('API Routes', () => {
       })
   })
 
+  it('responds to POST /api/v1/songs', done => {
+    var song = {
+      title: 'asdf',
+      artist: 'asdfasdf',
+      genre: "omg",
+      rating: 54
+    }
+
+    chai.request(server)
+      .post('/api/v1/songs')
+      .send({
+        'title': song.title,
+        'artist': song.artist,
+        'genre': song.genre,
+        'rating': song.rating
+      })
+      .end(function(err, res){
+        res.should.have.status(201);
+        done();
+      })
+  })
+
 });

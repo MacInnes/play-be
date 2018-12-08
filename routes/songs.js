@@ -17,4 +17,19 @@ router.get('/:id', function(request, response){
   });
 });
 
+router.post('/', function(request, response){
+  console.log("REQUEST BODY: ", request.body.title)
+  database('songs').insert({
+    title: request.body.title,
+    artist: request.body.artist,
+    genre: request.body.genre,
+    rating: request.body.rating
+  }).then(song => {
+    response.status(201).json('');
+  }).catch(error => {
+    response.status(500).json({ error });
+  })
+
+})
+
 module.exports = router;
