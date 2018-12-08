@@ -102,7 +102,7 @@ describe('API Routes', () => {
       })
   })
 
-  it('responds to PATCH /api/v1/song/:id', done => {
+  it('responds to PATCH /api/v1/songs/:id', done => {
     var newTitle = 'omg a new title';
     database('songs').select('*').then(data => resolve(data))
     function resolve(songs){
@@ -118,6 +118,24 @@ describe('API Routes', () => {
         response.should.have.status(200);
         response.body.title.should.equal(newTitle);
         response.body.artist.should.equal(songs[0].artist)
+        done();
+      })
+    }
+  })
+
+  it('fails PATCH /api/v1/songs/:id if not all fields are present', done => {
+    var newTitle = 'omg a new title';
+    database('songs').select('*').then(data => resolve(data))
+    function resolve(songs){
+      chai.request(server)
+      .put(`/api/v1/songs/${songs[0].id}`)
+      .send({
+        'title': newTitle,
+        'artist': songs[0].artist,
+        'genre': songs[0].genre
+      })
+      .end((error, response) => {
+        response.should.have.status(400);
         done();
       })
     }
