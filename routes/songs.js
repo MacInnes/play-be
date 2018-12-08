@@ -19,7 +19,6 @@ router.get('/:id', function(request, response){
 });
 
 router.post('/', function(request, response){
-
   var song = new Song(request.body.title,
                       request.body.artist,
                       request.body.genre,
@@ -35,6 +34,26 @@ router.post('/', function(request, response){
     }).catch(error => {
       response.status(400).json({ error });
     })
+})
+
+router.put('/:id', function(request, response){
+  if (request.body.title && request.body.artist && request.body.genre && request.body.rating){
+    database('songs')
+      .where('id', request.params.id)
+      .returning(['title', 'artist', 'genre', 'rating'])
+      .update({
+        title: request.body.title,
+        artist: request.body.artist,
+        genre: request.body.genre,
+        rating: request.body.rating
+      }).then(data => {
+        response.status(200).json(data[0]);
+      }).catch( error => {
+        response.status(400).json({ error });
+      })
+  } else {
+    response.status(400).json('')
+  }
 
 })
 
