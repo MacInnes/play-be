@@ -19,7 +19,6 @@ router.get('/:id', function(request, response){
 });
 
 router.post('/', function(request, response){
-
   var song = new Song(request.body.title,
                       request.body.artist,
                       request.body.genre,
@@ -35,7 +34,6 @@ router.post('/', function(request, response){
     }).catch(error => {
       response.status(400).json({ error });
     })
-
 })
 
 module.exports = router;
