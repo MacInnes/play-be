@@ -52,15 +52,15 @@ describe('API Routes', () => {
   });
 
   it('responds to /api/v1/songs/:id', done => {
-    database('songs').select('*').then(data => resolve(data))
+    database('songs').first('*').then(data => resolve(data))
     function resolve(song){
       chai.request(server)
-      .get(`/api/v1/songs/${song[0].id}`)
+      .get(`/api/v1/songs/${song.id}`)
       .end((error, response) => {
         response.should.have.status(200);
         response.body.length.should.equal(1);
-        response.body[0].title.should.equal(song[0].title)
-        response.body[0].artist.should.equal(song[0].artist)
+        response.body[0].title.should.equal(song.title)
+        response.body[0].artist.should.equal(song.artist)
         done();
       })
     }
@@ -104,20 +104,20 @@ describe('API Routes', () => {
 
   it('responds to PATCH /api/v1/songs/:id', done => {
     var newTitle = 'omg a new title';
-    database('songs').select('*').then(data => resolve(data))
-    function resolve(songs){
+    database('songs').first('*').then(data => resolve(data))
+    function resolve(song){
       chai.request(server)
-      .put(`/api/v1/songs/${songs[0].id}`)
+      .put(`/api/v1/songs/${song.id}`)
       .send({
         'title': newTitle,
-        'artist': songs[0].artist,
-        'genre': songs[0].genre,
-        'rating': songs[0].rating
+        'artist': song.artist,
+        'genre': song.genre,
+        'rating': song.rating
       })
       .end((error, response) => {
         response.should.have.status(200);
         response.body.title.should.equal(newTitle);
-        response.body.artist.should.equal(songs[0].artist)
+        response.body.artist.should.equal(song.artist)
         done();
       })
     }
@@ -125,20 +125,37 @@ describe('API Routes', () => {
 
   it('fails PATCH /api/v1/songs/:id if not all fields are present', done => {
     var newTitle = 'omg a new title';
-    database('songs').select('*').then(data => resolve(data))
-    function resolve(songs){
+    database('songs').first('*').then(data => resolve(data))
+    function resolve(song){
       chai.request(server)
-      .put(`/api/v1/songs/${songs[0].id}`)
+      .put(`/api/v1/songs/${song.id}`)
       .send({
         'title': newTitle,
-        'artist': songs[0].artist,
-        'genre': songs[0].genre
+        'artist': song.artist,
+        'genre': song.genre
       })
       .end((error, response) => {
         response.should.have.status(400);
         done();
       })
     }
+  })
+
+  it('deletes a song with DELETE /api/v1/songs/:id', done => {
+    database('songs').first('*')
+      .then(song => {
+        chai.request(server)
+          .delete(`/api/v1/songs/${song.id}`)
+          .end((error, response) => {
+            response.should.have.status(204)
+            database('songs').select('*')
+              .then(songs => {
+                songs.length.should.equal(1);
+                done();
+              })
+          })
+      })
+
   })
 
 });
