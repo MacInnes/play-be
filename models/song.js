@@ -18,6 +18,13 @@ class Song {
       .then(song =>song);
   }
 
+  static insertSong(songObject){
+    return database('songs')
+      .insert(songObject)
+      .returning('*')
+      .then(song => song);
+  }
+
 }
 
 module.exports = Song;
