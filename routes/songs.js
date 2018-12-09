@@ -19,16 +19,15 @@ router.get('/:id', async function(request, response){
 });
 
 router.post('/', async function(request, response){
-  var songObject = {
-    title: request.body.title,
-    artist: request.body.artist,
-    genre: request.body.genre,
-    rating: request.body.rating
-  };
+  if(request.body.title && request.body.artist && request.body.genre && request.body.rating){
+    var songObject = {
+      title: request.body.title,
+      artist: request.body.artist,
+      genre: request.body.genre,
+      rating: request.body.rating
+    };
 
-  var inserted = await Song.insertSong(songObject);
-
-  if (inserted.length){
+    var inserted = await Song.insertSong(songObject);
     response.status(201).json(inserted[0]);
   } else {
     response.status(400).json({message: 'An error occurred, song was not inserted.'});

@@ -129,6 +129,22 @@ describe('API Routes', () => {
       })
   })
 
+  it('fails POST /api/v1/songs with insufficient data', done => {
+    var song = {
+      title: 'asdf'
+    }
+
+    chai.request(server)
+      .post('/api/v1/songs')
+      .send({
+        'title': song.title,
+      })
+      .end(function(err, res){
+        res.should.have.status(400);
+        done();
+      })
+  })
+
   it('responds to PATCH /api/v1/songs/:id', done => {
     var newTitle = 'omg a new title';
     database('songs').first('*').then(data => resolve(data))
