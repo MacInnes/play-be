@@ -1,3 +1,7 @@
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('../knexfile')[environment];
+const database = require('knex')(configuration);
+
 class Song {
 
   constructor(title, artist, genre, rating){
@@ -7,6 +11,12 @@ class Song {
     this.rating = rating;
   }
 
+  static findById(id){
+    return database('songs')
+      .where('id', id)
+      .returning('*')
+      .then(song =>song);
+  }
 
 }
 

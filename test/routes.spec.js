@@ -65,6 +65,18 @@ describe('API Routes', () => {
       })
     }
   })
+
+  it("responds properly to GET /api/v1/songs/:id with invalid id", done => {
+    database('songs').first('*').then(data => resolve(data))
+    function resolve(song){
+      chai.request(server)
+      .get(`/api/v1/songs/${song.id - 5}`)
+      .end((error, response) => {
+        response.should.have.status(404);
+        done();
+      })
+    }
+  })
   //
   // it('responds to /api/v1/playlists', done => {
   //   chai.request(server)
