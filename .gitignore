@@ -8,3 +8,4 @@
 # logs
 *.log
 pikachu.txt
+.nyc-output
