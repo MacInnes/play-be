@@ -15,7 +15,7 @@ class Song {
     return database('songs')
       .where('id', id)
       .returning('*')
-      .then(song =>song);
+      .then(song => song);
   }
 
   static insertSong(songObject){
@@ -23,6 +23,14 @@ class Song {
       .insert(songObject)
       .returning('*')
       .then(song => song);
+  }
+
+  static updateSong(songObject){
+    return database('songs')
+      .where('id', songObject.id)
+      .update(songObject)
+      .returning('*')
+      .then(song => song[0]);
   }
 
 }

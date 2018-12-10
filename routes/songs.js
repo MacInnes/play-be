@@ -33,21 +33,17 @@ router.post('/', async function(request, response){
   }
 })
 
-router.put('/:id', function(request, response){
+router.put('/:id', async function(request, response){
   if (request.body.title && request.body.artist && request.body.genre && request.body.rating){
-    database('songs')
-      .where('id', request.params.id)
-      .returning(['title', 'artist', 'genre', 'rating'])
-      .update({
-        title: request.body.title,
-        artist: request.body.artist,
-        genre: request.body.genre,
-        rating: request.body.rating
-      }).then(data => {
-        response.status(200).json(data[0]);
-      }).catch( error => {
-        response.status(400).json({ error });
-      })
+    var songData = {
+      id: request.params.id,
+      title: request.body.title,
+      artist: request.body.artist,
+      genre: request.body.genre,
+      rating: request.body.rating
+    };
+    var updated = await Song.updateSong(songData);
+    response.status(200).json(updated);
   } else {
     response.status(400).json('')
   }
