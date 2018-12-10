@@ -198,7 +198,21 @@ describe('API Routes', () => {
               })
           })
       })
-
+  })
+  it("sends an error when it couldn't find the song", done => {
+    database('songs').first('*')
+      .then(song => {
+        chai.request(server)
+          .delete(`/api/v1/songs/${song.id - 5}`)
+          .end((error, response) => {
+            response.should.have.status(400)
+            database('songs').select('*')
+              .then(songs => {
+                songs.length.should.equal(2);
+                done();
+              })
+          })
+      })
   })
 
 });

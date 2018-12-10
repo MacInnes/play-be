@@ -33,6 +33,13 @@ class Song {
       .then(song => song[0]);
   }
 
+  static deleteSong(id){
+    return database('songs')
+      .where('id', id)
+      .del()
+      .then(rows => rows)
+  }
+
 }
 
 module.exports = Song;

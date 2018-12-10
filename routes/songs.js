@@ -49,17 +49,13 @@ router.put('/:id', async function(request, response){
   }
 })
 
-router.delete('/:id', function(request, response){
-  database('songs')
-    .where('id', request.params.id)
-    .del()
-    .then(data => {
-      if (data != 0){
-        response.status(204).json('');
-      } else {
-        response.status(400).json('');
-      }
-    });
+router.delete('/:id', async function(request, response){
+  var rowsDeleted = await Song.deleteSong(request.params.id);
+  if (rowsDeleted > 0){
+    response.status(204).json({message: 'Song deleted.'});
+  } else {
+    response.status(400).json({message: 'Could not find song, nothing deleted.'});
+  };
 })
 
 module.exports = router;
