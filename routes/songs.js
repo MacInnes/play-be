@@ -2,10 +2,6 @@ const express = require('express');
 const router  = express.Router();
 const Song = require('../models/song.js')
 
-const environment = process.env.NODE_ENV || 'development';
-const configuration = require('../knexfile')[environment];
-const database = require('knex')(configuration);
-
 // router.get(endpoint, callback) goes here
 
 router.get('/:id', async function(request, response){
