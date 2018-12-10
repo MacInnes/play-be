@@ -10,6 +10,13 @@ class Playlist {
     this.name = name;
   }
 
+  static all(){
+    return database('playlists')
+      .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
+      .join('songs', {'playlists_songs.song_id': 'songs.id'})
+      .then(playlists => console.log("ALL: ", playlists))
+  }
+
   static findById(id){
     return database('playlists')
       .where('playlists.id', id)

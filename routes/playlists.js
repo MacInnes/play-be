@@ -8,21 +8,22 @@ const database = require('knex')(configuration);
 // router.get(endpoint, callback) goes here
 
 router.get('/', function(req, res){
-  database('playlists')
-    .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
-    .join('songs', {'songs.id': 'playlists_songs.song_id'})
-    .then((playlists) => {
-      res.status(200).json(playlists);
-    })
-    .catch((error) => {
-      res.status(500).json({ error });
-    });
+  var playlists = Playlist.all();
+  // database('playlists')
+  //   .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
+  //   .join('songs', {'songs.id': 'playlists_songs.song_id'})
+  //   .then((playlists) => {
+  //     console.log(playlists);
+  //     res.status(200).json(playlists);
+  //   })
+  //   .catch((error) => {
+  //     res.status(500).json({ error });
+  //   });
 })
 
 router.get('/:id/songs', async function(req, res){
   var playlist = await Playlist.findById(req.params.id);
   res.status(200).json(playlist);
-  
 })
 
 module.exports = router;
