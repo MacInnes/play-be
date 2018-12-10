@@ -14,7 +14,38 @@ class Playlist {
     return database('playlists')
       .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
       .join('songs', {'playlists_songs.song_id': 'songs.id'})
-      .then(playlists => console.log("ALL: ", playlists))
+      .select('playlists.id', 'playlists.name', 'playlists_songs.song_id', 'songs.title', 'songs.artist', 'songs.genre', 'songs.rating')
+      .then(playlists => formatPlaylists(playlists))
+
+    function formatPlaylists(playlists_songs){
+      var playlist_ids = [];
+      playlists_songs.forEach(function(each){
+        if(!playlist_ids.includes(each.id)){
+          playlist_ids.push(each.id)
+        }
+      })
+      var playlists = [];
+      playlist_ids.forEach(function(each){
+        var playlist = {
+          id: each
+        };
+        var filteredSongs = playlists_songs.filter(function(song){
+          return song.id == each;
+        })
+        playlist.name = filteredSongs[0].name;
+        playlist.songs = filteredSongs.map(function(song){
+          return {
+            id: song.song_id,
+            title: song.title,
+            artist: song.artist,
+            genre: song.genre,
+            rating: song.rating
+          }
+        })
+        playlists.push(playlist);
+      })
+      return playlists;
+    }
   }
 
   static findById(id){
@@ -28,7 +59,13 @@ class Playlist {
         id: songs[0].id,
         playlist_name: songs[0].name,
         songs: songs.map(function(song){
-          return new Song(song.title, song.artist, song.genre, song.rating);
+          return {
+            id: song.id,
+            title: song.title,
+            artist: song.artist,
+            genre: song.genre,
+            rating: song.rating
+          }
         })
       }
       return playlist;

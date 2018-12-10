@@ -7,8 +7,8 @@ const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
 // router.get(endpoint, callback) goes here
 
-router.get('/', function(req, res){
-  var playlists = Playlist.all();
+router.get('/', async function(req, res){
+  var playlists = await Playlist.all();
   // database('playlists')
   //   .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
   //   .join('songs', {'songs.id': 'playlists_songs.song_id'})
@@ -19,6 +19,7 @@ router.get('/', function(req, res){
   //   .catch((error) => {
   //     res.status(500).json({ error });
   //   });
+  res.status(200).json(playlists);
 })
 
 router.get('/:id/songs', async function(req, res){
