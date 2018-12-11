@@ -10,6 +10,15 @@ class Playlist {
     this.name = name;
   }
 
+  static insert(name){
+    return database('playlists')
+      .insert({ name: name })
+      .returning('name')
+      .then(name => {
+        return { message: `Successfully created Playlist: ${name[0]}` };
+      });
+  }
+
   static all(){
     return database('playlists')
       .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})

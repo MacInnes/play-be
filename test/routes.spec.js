@@ -104,9 +104,21 @@ describe('API Routes', () => {
       })
     }
   })
-
-
   // add test for invalid ID!!!
+
+  it('posts a playlist to /api/v1/playlists', done => {
+    let name = "Funk"
+    chai.request(server)
+      .post('/api/v1/playlists')
+      .send({
+        'name': name
+      })
+      .end(function(err, res){
+        res.should.have.status(201);
+        res.body.message.should.equal(`Successfully created Playlist: ${name}`)
+        done();
+      })
+  })
 
 
   it('responds to POST /api/v1/songs', done => {

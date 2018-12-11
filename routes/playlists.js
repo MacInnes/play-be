@@ -2,9 +2,6 @@ const express = require('express');
 const router  = express.Router();
 const Playlist = require('../models/playlist.js');
 
-const environment = process.env.NODE_ENV || 'development';
-const configuration = require('../knexfile')[environment];
-const database = require('knex')(configuration);
 // router.get(endpoint, callback) goes here
 
 router.get('/', async function(req, res){
@@ -17,6 +14,10 @@ router.get('/:id/songs', async function(req, res){
   res.status(200).json(playlist);
 })
 
-
+router.post('/', async function(req, res){
+  var name = req.body.name;
+  var dbResponse = await Playlist.insert(name);
+  res.status(201).json(dbResponse);
+})
 
 module.exports = router;
