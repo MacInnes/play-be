@@ -34,12 +34,12 @@ class Playlist {
         }
       })
       var playlists = [];
-      playlist_ids.forEach(function(each){
+      playlist_ids.forEach(function(playlistId){
         var playlist = {
-          id: each
+          id: playlistId
         };
         var filteredSongs = playlists_songs.filter(function(song){
-          return song.id == each;
+          return song.id == playlistId;
         })
         playlist.name = filteredSongs[0].name;
         playlist.songs = filteredSongs.map(function(song){
@@ -88,6 +88,15 @@ class Playlist {
       .then(data => {
         return {'message': `Successfully added song (id: ${songId}) to playlist (id: ${playlistId})`}
       });
+  }
+
+  static deleteSong(playlistId, songId){
+    return database('playlists_songs')
+      .where({ playlist_id: playlistId, song_id: songId })
+      .del()
+      .then(data => {
+        return {'message': `Successfully deleted song (id: ${songId}) from playlist (id: ${playlistId})`}
+      })
   }
 
 }
