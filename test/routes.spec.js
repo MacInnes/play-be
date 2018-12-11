@@ -65,6 +65,18 @@ describe('API Routes', () => {
       })
     }
   })
+
+  it("responds properly to GET /api/v1/songs/:id with invalid id", done => {
+    database('songs').first('*').then(data => resolve(data))
+    function resolve(song){
+      chai.request(server)
+      .get(`/api/v1/songs/${song.id - 5}`)
+      .end((error, response) => {
+        response.should.have.status(404);
+        done();
+      })
+    }
+  })
   //
   // it('responds to /api/v1/playlists', done => {
   //   chai.request(server)
@@ -113,6 +125,22 @@ describe('API Routes', () => {
         res.should.have.status(201);
         res.body.title.should.equal(song.title);
         res.body.artist.should.equal(song.artist);
+        done();
+      })
+  })
+
+  it('fails POST /api/v1/songs with insufficient data', done => {
+    var song = {
+      title: 'asdf'
+    }
+
+    chai.request(server)
+      .post('/api/v1/songs')
+      .send({
+        'title': song.title,
+      })
+      .end(function(err, res){
+        res.should.have.status(400);
         done();
       })
   })
@@ -170,7 +198,21 @@ describe('API Routes', () => {
               })
           })
       })
-
+  })
+  it("sends an error when it couldn't find the song", done => {
+    database('songs').first('*')
+      .then(song => {
+        chai.request(server)
+          .delete(`/api/v1/songs/${song.id - 5}`)
+          .end((error, response) => {
+            response.should.have.status(400)
+            database('songs').select('*')
+              .then(songs => {
+                songs.length.should.equal(2);
+                done();
+              })
+          })
+      })
   })
 
 });
