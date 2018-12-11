@@ -212,7 +212,7 @@ describe('API Routes', () => {
             response.should.have.status(400)
             database('songs').select('*')
               .then(songs => {
-                songs.length.should.equal(2);
+                songs.length.should.equal(3);
                 done();
               })
           })
