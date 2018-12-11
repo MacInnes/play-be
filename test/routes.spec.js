@@ -91,7 +91,7 @@ describe('API Routes', () => {
     }
   })
 
-  it('responds to /api/v1/playlists/:id/songs', done => {
+  it('responds to GET /api/v1/playlists/:id/songs', done => {
     database('playlists').first('*').then(data => resolve(data))
     function resolve(playlist){
       chai.request(server)
@@ -118,6 +118,34 @@ describe('API Routes', () => {
         res.body.message.should.equal(`Successfully created Playlist: ${name}`)
         done();
       })
+  })
+
+  it('posts an existing song to an existing playlist POST /api/v1/playlists/:id/songs/:id', done => {
+    database('playlists').first('*').then(playlist => {
+      database('songs').first('*').then(song => {
+        chai.request(server)
+          .post(`/api/v1/playlists/${playlist.id + 1}/songs/${song.id + 1}`)
+          .end(function(err, res){
+            res.should.have.status(201);
+            res.body.message.should.equal(`Successfully added song (id: ${song.id + 1}) to playlist (id: ${playlist.id + 1})`)
+            done();
+          })
+      })
+    })
+  })
+
+  it('can delete a song DELETE /api/v1/playlists/:id/songs/:id', done => {
+    database('playlists').first('*').then(playlist => {
+      database('songs').first('*').then(song => {
+        chai.request(server)
+          .delete(`/api/v1/playlists/${playlist.id}/songs/${song.id}`)
+          .end(function(req, res){
+            res.should.have.status(202)
+            res.body.message.should.equal(`Successfully deleted song (id: ${song.id}) from playlist (id: ${playlist.id})`)
+            done();
+          })
+      })
+    })
   })
 
 

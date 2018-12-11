@@ -20,4 +20,14 @@ router.post('/', async function(req, res){
   res.status(201).json(dbResponse);
 })
 
+router.post('/:playlistId/songs/:songId', async function(req, res){
+  var playlistResponse = await Playlist.insertSong(req.params.playlistId, req.params.songId);
+  res.status(201).json(playlistResponse);
+})
+
+router.delete('/:playlistId/songs/:songId', async function(req, res){
+  var playlistResponse = await Playlist.deleteSong(req.params.playlistId, req.params.songId);
+  res.status(202).json(playlistResponse);
+})
+
 module.exports = router;
