@@ -7,6 +7,7 @@ const database = require('knex')(configuration);
 // router.get(endpoint, callback) goes here
 
 router.get('/', function(req, res){
+  // Refactor to Song.all()
   database('songs').select()
     .then((songs) => {
       res.status(200).json(songs);

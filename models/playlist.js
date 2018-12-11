@@ -81,6 +81,15 @@ class Playlist {
     }
   }
 
+  static insertSong(playlistId, songId){
+    return database('playlists_songs')
+      .insert({ playlist_id: playlistId, song_id: songId })
+      .returning('*')
+      .then(data => {
+        return {'message': `Successfully added song (id: ${songId}) to playlist (id: ${playlistId})`}
+      });
+  }
+
 }
 
 module.exports = Playlist;
