@@ -9,15 +9,24 @@ exports.seed = function(knex, Promise) {
           .then(song1 => {
             return knex('songs').insert({ title: 'Pink', artist: 'Janelle Monae', genre: 'R&B', rating: 80 }, 'id')
             .then(song2 => {
-              return knex('playlists').insert({name: 'Lasagna for One'}, 'id')
-              .then(playlist1 => {
-                return knex('playlists').insert({name: 'Stylez with a z'}, 'id')
-                .then(playlist2 => {
-                  return knex('playlists_songs').insert({ playlist_id: playlist1[0], song_id: song1[0] })
-                  .then(() => {
-                    return knex('playlists_songs').insert({ playlist_id: playlist1[0], song_id: song2[0] })
+              return knex('songs').insert({ title: 'Selkies', artist: 'Between the Buried and Me', genre: 'Metal', rating: 85 }, 'id')
+              .then(song3 => {
+                return knex('playlists').insert({name: 'Lasagna for One'}, 'id')
+                .then(playlist1 => {
+                  return knex('playlists').insert({name: 'Stylez with a z'}, 'id')
+                  .then(playlist2 => {
+                    return knex('playlists_songs').insert({ playlist_id: playlist1[0], song_id: song1[0] })
                     .then(() => {
-                      return knex('playlists_songs').insert({ playlist_id: playlist2[0], song_id: song1[0] })
+                      return knex('playlists_songs').insert({ playlist_id: playlist1[0], song_id: song2[0] })
+                      .then(() => {
+                        return knex('playlists_songs').insert({ playlist_id: playlist1[0], song_id: song3[0] })
+                        .then(() => {
+                          return knex('playlists_songs').insert({ playlist_id: playlist2[0], song_id: song1[0] })
+                          .then(() => {
+                            return knex('playlists_songs').insert({ playlist_id: playlist2[0], song_id: song3[0] })
+                          })
+                        })
+                      })
                     })
                   })
                 })

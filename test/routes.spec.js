@@ -46,7 +46,7 @@ describe('API Routes', () => {
       .get('/api/v1/favorites')
       .end((err, response) => {
         response.should.have.status(200);
-        response.body.length.should.equal(2);
+        response.body.length.should.equal(3);
         done();
       });
   });
@@ -66,6 +66,19 @@ describe('API Routes', () => {
     }
   })
 
+  it('responds to /api/v1/playlists', done => {
+    chai.request(server)
+      .get('/api/v1/playlists')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.body.length.should.equal(2);
+        response.body[0].name.should.equal("Lasagna for One")
+        response.body[1].name.should.equal("Stylez with a z")
+        response.body[0].songs[0].title.should.equal("a song")
+        done();
+      })
+  })
+
   it("responds properly to GET /api/v1/songs/:id with invalid id", done => {
     database('songs').first('*').then(data => resolve(data))
     function resolve(song){
@@ -77,19 +90,6 @@ describe('API Routes', () => {
       })
     }
   })
-  //
-  // it('responds to /api/v1/playlists', done => {
-  //   chai.request(server)
-  //     .get('/api/v1/playlists')
-  //     .end((error, response) => {
-  //       response.should.have.status(200);
-  //       response.body.length.should.equal(2);
-  //       response.body[0].name.should.equal("Lasagna for One")
-  //       response.body[1].name.should.equal("Stylez with a z")
-  //       response.body[0].songs[0].name.should.equal("a song")
-  //       done();
-  //     })
-  // })
 
   it('responds to /api/v1/playlists/:id/songs', done => {
     database('playlists').first('*').then(data => resolve(data))
@@ -99,11 +99,15 @@ describe('API Routes', () => {
       .end((error, response) => {
         response.should.have.status(200);
         response.body.playlist_name.should.equal(playlist.name);
-        response.body.songs.length.should.equal(2);
+        response.body.songs.length.should.equal(3);
         done();
       })
     }
   })
+
+
+  // add test for invalid ID!!!
+
 
   it('responds to POST /api/v1/songs', done => {
     var song = {
@@ -193,7 +197,7 @@ describe('API Routes', () => {
             response.should.have.status(204)
             database('songs').select('*')
               .then(songs => {
-                songs.length.should.equal(1);
+                songs.length.should.equal(2);
                 done();
               })
           })
