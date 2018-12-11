@@ -91,7 +91,7 @@ describe('API Routes', () => {
     }
   })
 
-  it('responds to /api/v1/playlists/:id/songs', done => {
+  it('responds to GET /api/v1/playlists/:id/songs', done => {
     database('playlists').first('*').then(data => resolve(data))
     function resolve(playlist){
       chai.request(server)
@@ -118,6 +118,22 @@ describe('API Routes', () => {
         res.body.message.should.equal(`Successfully created Playlist: ${name}`)
         done();
       })
+  })
+
+  it('posts a song to an existing playlist /api/v1/playlists/:id/songs/:id', done => {
+    // song 2 to playlist 2 (only song that doesn't exist in both playlists from seed file)
+    // need to test adding a song returned by db or returned by API
+    // maybe add a process where they favorite then can add to a playlist?
+    database('playlists').first('*').then(playlist => {
+      database('songs').first('*').then(song => {
+        chai.request(server)
+          .post(`/api/v1/playlists/${playlist.id + 1}/songs/${song.id + 1}`)
+          .end(function(err, res){
+            res.should.have.status(201);
+            res.body.message.should.equal(`Successfully added ${song.title} to ${playlist.name}`)
+          })
+      })
+    })
   })
 
 

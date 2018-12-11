@@ -9,7 +9,7 @@ router.post('/', async function(req, res){
 
   var songRequest = new Promise((resolve, reject) => {
     var options = {
-      url: `http://api.musixmatch.com/ws/1.1/track.search?q_artist=${artist}&apikey=bf8a4b36f09e4df30ca2146f0821b791&page_size=100`,
+      url: `http://api.musixmatch.com/ws/1.1/track.search?q_artist=${artist}&apikey=bf8a4b36f09e4df30ca2146f0821b791&page_size=100&s_track_rating=desc`,
       headers: {
         'Content-Type': 'application/json'
       }
@@ -31,7 +31,7 @@ router.post('/', async function(req, res){
     if (song.track.primary_genres.music_genre_list[0]){
       var genre = song.track.primary_genres.music_genre_list[0].music_genre.music_genre_name;
     } else {
-      var genre = "No Genre Supplied";
+      var genre = "";
     }
     var rating = song.track.track_rating;
     return new Song(title, artist, genre, rating);
