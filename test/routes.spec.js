@@ -72,8 +72,8 @@ describe('API Routes', () => {
       .end((error, response) => {
         response.should.have.status(200);
         response.body.length.should.equal(2);
-        response.body[0].name.should.equal("Lasagna for One")
-        response.body[1].name.should.equal("Stylez with a z")
+        response.body[0].playlist_name.should.equal("Lasagna for One")
+        response.body[1].playlist_name.should.equal("Stylez with a z")
         response.body[0].songs[0].title.should.equal("a song")
         done();
       })
