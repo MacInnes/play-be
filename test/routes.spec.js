@@ -155,8 +155,20 @@ describe('API Routes', () => {
         .put(`/api/v1/playlists/${playlist.id}`)
         .send({ name: newName })
         .end(function(req, res){
-          res.should.have.status(200)
+          res.should.have.status(200);
           res.body.playlist.name.should.equal(newName);
+          done();
+        })
+    })
+  })
+
+  it('can delete a playlist', done => {
+    database('playlists').first('*').then(playlist => {
+      chai.request(server)
+        .delete(`/api/v1/playlists/${playlist.id}`)
+        .end(function(req, res){
+          res.should.have.status(202);
+          res.body.message.should.equal(`Playlist ${playlist.name} successfully deleted.`)
           done();
         })
     })
