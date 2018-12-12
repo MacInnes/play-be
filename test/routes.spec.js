@@ -261,7 +261,7 @@ describe('API Routes', () => {
           .delete(`/api/v1/songs/${song.id}`)
           .end((error, response) => {
             response.should.have.status(202)
-            response.message.should.equal("Song deleted.")
+            response.body.message.should.equal("Song deleted.")
             database('songs').select('*')
               .then(songs => {
                 songs.length.should.equal(2);
