@@ -39,7 +39,7 @@ Example response (100 results maximum):
 ```
 
 #### POST /api/v1/songs
-This endpoint lets your save a song to the database as a "favorite".  All fields are required.
+This endpoint lets you save a song to the database as a "favorite".  All fields are required.
 
 Example request body:
 ```
@@ -83,7 +83,7 @@ Example response:
 ```
 
 #### PUT /api/v1/songs/:id
-This endpoint allows you to update a song stored in the database by id.  All fields must be specified, even if they aren't being updated.
+This endpoint allows you to update a song stored in the database by ID.  All fields must be specified, even if they aren't being updated.
 
 Example request body (to the id of our previous example song):
 ```
@@ -132,5 +132,57 @@ Example response:
 ```
 {
   "message": "Successfully created Playlist: Queen Playlist"
+}
+```
+
+#### PUT /api/v1/playlists/:id
+This endpoint lets you update the name of a playlist by ID.
+
+Example request body:
+```
+{
+  name: "The Best Queen Playlist"
+}
+```
+
+Example response:
+```
+{
+  "playlist": {
+    "id": 7285,
+    "name": "The Best Queen Playlist",
+    "created_at": "2018-12-12T21:43:41.154Z",
+    "updated_at": "2018-12-12T21:43:41.154Z"
+  }
+}
+```
+
+#### POST /api/v1/playlists/:playlist_id/songs/:song_id
+This endpoint will add a song to a playlist.  Both the song and playlist must exist in the the database.  No body is needed for the request.
+
+Example response:
+```
+{
+  "message": "Successfully added song (id: 9763) to playlist (id: 7268)"
+}
+```
+
+#### DELETE /api/v1/playlists/:playlist_id/songs/:song_id
+This endpoint deletes a song from a playlist.  The song will remain in the database, but will no longer be associated with this playlist.
+
+Example response:
+```
+{
+  "message": "Successfully deleted song (id: 9763) to playlist (id: 7268)"
+}
+```
+
+#### DELETE /api/v1/playlists/:id
+This endpoint deletes a playlist entirely.  All songs will remain in the database, but will no longer be associated with this playlist.
+
+Example response:
+```
+{
+  "message": "Playlist The Best Queen Playlist successfully deleted"
 }
 ```
