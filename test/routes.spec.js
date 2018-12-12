@@ -260,7 +260,8 @@ describe('API Routes', () => {
         chai.request(server)
           .delete(`/api/v1/songs/${song.id}`)
           .end((error, response) => {
-            response.should.have.status(204)
+            response.should.have.status(202)
+            response.message.should.equal("Song deleted.")
             database('songs').select('*')
               .then(songs => {
                 songs.length.should.equal(2);
