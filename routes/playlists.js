@@ -35,4 +35,9 @@ router.delete('/:playlistId/songs/:songId', async function(req, res){
   res.status(202).json(playlistResponse);
 })
 
+router.delete('/:id', async function(req, res){
+  var playlistResponse = await Playlist.deletePlaylist(req.params.id);
+  res.status(202).json(playlistResponse);
+})
+
 module.exports = router;

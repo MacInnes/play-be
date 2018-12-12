@@ -109,6 +109,16 @@ class Playlist {
       })
       .catch(error => console.log("ERROR: ", error))
   }
+
+  static deletePlaylist(id){
+    return database('playlists')
+      .where({ id: id })
+      .returning('*')
+      .del()
+      .then(data => {
+        return { message: `Playlist ${data[0].name} successfully deleted`}
+      })
+  }
 }
 
 module.exports = Playlist;

@@ -168,7 +168,7 @@ describe('API Routes', () => {
         .delete(`/api/v1/playlists/${playlist.id}`)
         .end(function(req, res){
           res.should.have.status(202);
-          res.body.message.should.equal(`Playlist ${playlist.name} successfully deleted.`)
+          res.body.message.should.equal(`Playlist ${playlist.name} successfully deleted`)
           done();
         })
     })
