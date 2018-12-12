@@ -148,6 +148,20 @@ describe('API Routes', () => {
     })
   })
 
+  it('can update the name of a playlist', done => {
+    newName = "Workout mix"
+    database('playlists').first('*').then(playlist => {
+      chai.request(server)
+        .put(`/api/v1/playlists/${playlist.id}`)
+        .send({ name: newName })
+        .end(function(req, res){
+          res.should.have.status(200)
+          res.body.playlist.name.should.equal(newName);
+          done();
+        })
+    })
+  })
+
 
   it('responds to POST /api/v1/songs', done => {
     var song = {
