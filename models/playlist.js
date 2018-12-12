@@ -99,6 +99,26 @@ class Playlist {
       })
   }
 
+  static updateName(id, newName){
+    return database('playlists')
+      .where({ id: id })
+      .update({ name: newName })
+      .returning('*')
+      .then(data => {
+        return {playlist: data[0]}
+      })
+      .catch(error => console.log("ERROR: ", error))
+  }
+
+  static deletePlaylist(id){
+    return database('playlists')
+      .where({ id: id })
+      .returning('*')
+      .del()
+      .then(data => {
+        return { message: `Playlist ${data[0].name} successfully deleted`}
+      })
+  }
 }
 
 module.exports = Playlist;

@@ -25,8 +25,18 @@ router.post('/:playlistId/songs/:songId', async function(req, res){
   res.status(201).json(playlistResponse);
 })
 
+router.put('/:id', async function(req, res){
+  var playlistResponse = await Playlist.updateName(req.params.id, req.body.name);
+  res.status(200).json(playlistResponse);
+})
+
 router.delete('/:playlistId/songs/:songId', async function(req, res){
   var playlistResponse = await Playlist.deleteSong(req.params.playlistId, req.params.songId);
+  res.status(202).json(playlistResponse);
+})
+
+router.delete('/:id', async function(req, res){
+  var playlistResponse = await Playlist.deletePlaylist(req.params.id);
   res.status(202).json(playlistResponse);
 })
 
