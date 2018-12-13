@@ -6,6 +6,9 @@ This project was built by [Andrew Mockett](https://github.com/MacInnes) and [Tar
 
 This project was built alongside the [Play-FE](https://github.com/TCraig7/Play-FE) project, which is a separate Frontend application to consume the data from this project.  You can view the live production site [here](https://tcraig7.github.io/Play-FE/).
 
+## Local setup:
+To run this repository locally, simply clone down this repo: `git clone git@github.com:MacInnes/play-be.git` and run `npm install` to install the current dependencies.  You can run the local tests by running `npm test`, and you can run the local server by running `npm start`.
+
 ## Endpoints
 
 All endpoints respond with JSON, and any POST/PUT requests require a JSON formatted body.  The base url for each endpoint is https://api-play.herokuapp.com/.  No API key is required to access these endpoints.
