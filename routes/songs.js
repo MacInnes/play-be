@@ -48,7 +48,7 @@ router.put('/:id', async function(request, response){
 router.delete('/:id', async function(request, response){
   var rowsDeleted = await Song.deleteSong(request.params.id);
   if (rowsDeleted > 0){
-    response.status(204).json({message: 'Song deleted.'});
+    response.status(202).json({message: 'Song deleted.'});
   } else {
     response.status(400).json({message: 'Could not find song, nothing deleted.'});
   };
