@@ -9,6 +9,11 @@ router.get('/', async function(req, res){
   res.status(200).json(playlists);
 })
 
+router.get('/:id', async function(req, res){
+  var playlistResponse = await Playlist.findById(req.params.id);
+  res.status(200).json(playlistResponse);
+})
+
 router.get('/:id/songs', async function(req, res){
   var playlist = await Playlist.findById(req.params.id);
   res.status(200).json(playlist);

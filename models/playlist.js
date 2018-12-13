@@ -47,10 +47,11 @@ class Playlist {
   static findById(id){
     return database('playlists')
       .where('playlists.id', id)
-      .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
-      .join('songs', {'playlists_songs.song_id': 'songs.id'})
+      .leftJoin('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
+      .leftJoin('songs', {'playlists_songs.song_id': 'songs.id'})
       .select('playlists.id', 'playlists.name', 'playlists_songs.song_id', 'songs.title', 'songs.artist', 'songs.genre', 'songs.rating')
-      .then(songs => format(songs));
+      .then(songs => format(songs))
+      .catch(error => console.log("ERROR: ", error))
   }
 
   static insertSong(playlistId, songId){
@@ -94,18 +95,26 @@ class Playlist {
 }
 
 function format(songs){
-  var playlist = {
-    id: songs[0].id,
-    playlist_name: songs[0].name,
-    songs: songs.map(function(song){
-      return {
-        id: song.song_id,
-        title: song.title,
-        artist: song.artist,
-        genre: song.genre,
-        rating: song.rating
-      }
-    })
+  if(songs[0].song_id){
+    var playlist = {
+      id: songs[0].id,
+      playlist_name: songs[0].name,
+      songs: songs.map(function(song){
+        return {
+          id: song.song_id,
+          title: song.title,
+          artist: song.artist,
+          genre: song.genre,
+          rating: song.rating
+        }
+      })
+    }
+  } else {
+    var playlist = {
+      id: songs[0].id,
+      playlist_name: songs[0].name,
+      songs: []
+    }
   }
   return playlist;
 }
