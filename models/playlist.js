@@ -95,26 +95,21 @@ class Playlist {
 }
 
 function format(songs){
+  var playlist = {
+    id: songs[0].id,
+    playlist_name: songs[0].name,
+    songs: []
+  };
   if(songs[0].song_id){
-    var playlist = {
-      id: songs[0].id,
-      playlist_name: songs[0].name,
-      songs: songs.map(function(song){
-        return {
-          id: song.song_id,
-          title: song.title,
-          artist: song.artist,
-          genre: song.genre,
-          rating: song.rating
-        }
-      })
-    }
-  } else {
-    var playlist = {
-      id: songs[0].id,
-      playlist_name: songs[0].name,
-      songs: []
-    }
+    playlist.songs = songs.map(function(song){
+      return {
+        id: song.song_id,
+        title: song.title,
+        artist: song.artist,
+        genre: song.genre,
+        rating: song.rating
+      }
+    })
   }
   return playlist;
 }
