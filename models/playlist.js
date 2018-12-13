@@ -21,12 +21,15 @@ class Playlist {
 
   static all(){
     return database('playlists')
-      .join('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
-      .join('songs', {'playlists_songs.song_id': 'songs.id'})
+      .leftJoin('playlists_songs', {'playlists.id': 'playlists_songs.playlist_id'})
+      .leftJoin('songs', {'playlists_songs.song_id': 'songs.id'})
       .select('playlists.id', 'playlists.name', 'playlists_songs.song_id', 'songs.title', 'songs.artist', 'songs.genre', 'songs.rating')
-      .then(playlists => formatPlaylists(playlists))
+      .then(playlists => {
+        return formatPlaylists(playlists)
+      })
 
     function formatPlaylists(playlists_songs){
+      console.log("?????", playlists_songs)
       var playlist_ids = [];
       playlists_songs.forEach(function(each){
         if(!playlist_ids.includes(each.id)){
