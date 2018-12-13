@@ -120,6 +120,53 @@ describe('API Routes', () => {
       })
   })
 
+  it('can get a playlist without any songs added to it', done => {
+    let name = "Test"
+    chai.request(server)
+      .post('/api/v1/playlists')
+      .send({
+        'name': name
+      })
+      .end(function(err, res){
+        database('playlists')
+          .where("name", name)
+          .then(playlist => {
+            chai.request(server)
+              .get(`/api/v1/playlists/${playlist[0].id}`)
+              .end(function(request, response){
+                response.should.have.status(200);
+                response.body.playlist_name.should.equal(name);
+                done();
+              })
+          })
+      })
+  })
+
+  it('can add a song to a playlist without any songs', done => {
+    let name = "Test"
+    chai.request(server)
+      .post('/api/v1/playlists')
+      .send({
+        'name': name
+      })
+      .end(function(err, res){
+        database('playlists')
+          .where("name", name)
+          .then(playlist => {
+            database('songs').first('*').then(song => {
+              chai.request(server)
+                .post(`/api/v1/playlists/${playlist[0].id}/songs/${song.id}`)
+                .end(function(request, response){
+                  response.should.have.status(201);
+                  response.body.message.should.equal(`Successfully added song (id: ${song.id}) to playlist (id: ${playlist[0].id})`)
+                  done();
+                })
+            })
+            })
+
+      })
+  })
+
   it('posts an existing song to an existing playlist POST /api/v1/playlists/:id/songs/:id', done => {
     database('playlists').first('*').then(playlist => {
       database('songs').first('*').then(song => {

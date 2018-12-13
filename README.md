@@ -118,6 +118,45 @@ Example response:
 }
 ```
 
+#### GET /api/v1/playlists
+This endpoint returns all existing playlists.
+
+Example response:
+```
+[ { id: 7325,
+    playlist_name: 'Lasagna for One',
+    songs: [ { id: 9848,
+      title: 'a song',
+      artist: 'asdf',
+      genre: 'rap',
+      rating: 5 },
+    { id: 9849,
+      title: 'Pink',
+      artist: 'Janelle Monae',
+      genre: 'R&B',
+      rating: 80 },
+    { id: 9850,
+      title: 'Selkies',
+      artist: 'Between the Buried and Me',
+      genre: 'Metal',
+      rating: 85 } ]
+  },
+  ...etc...
+]
+```
+
+#### GET /api/v1/playlists/:id
+This endpoint returns a specific playlist by ID.
+
+Example response:
+```
+{
+  id: 8746,
+  playlist_name: 'Test',
+  songs: []
+}
+```
+
 #### POST /api/v1/playlists
 This endpoint will create a new playlist in the database.
 
