@@ -29,7 +29,6 @@ class Playlist {
       })
 
     function formatPlaylists(playlists_songs){
-      console.log("?????", playlists_songs)
       var playlist_ids = [];
       playlists_songs.forEach(function(each){
         if(!playlist_ids.includes(each.id)){

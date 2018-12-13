@@ -134,7 +134,6 @@ describe('API Routes', () => {
             chai.request(server)
               .get(`/api/v1/playlists/${playlist[0].id}`)
               .end(function(request, response){
-                console.log("WTF: ", response.body)
                 response.should.have.status(200);
                 response.body.playlist_name.should.equal(name);
                 done();
@@ -150,11 +149,9 @@ describe('API Routes', () => {
         database('playlists')
           .insert({name: name})
           .then(data => {
-            console.log("DATA: ", data)
             chai.request(server)
               .get('/api/v1/playlists')
               .end(function(req, res){
-                console.log("!!!!!!", res.body)
                 done();
               });
         })
